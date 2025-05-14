@@ -42,8 +42,8 @@ export default function Home() {
 
       {/* Hero Section */}
       <section className="container mx-auto px-6 py-20 flex flex-col items-center text-center">
-        <div className="relative w-24 h-24 mb-6 rounded-full overflow-hidden border border-gray-200 shadow-md">
-          <Image src="/profile-image.png" alt="Profile" fill className="object-cover" priority />
+        <div className="relative w-28 h-28 mb-6 rounded-full overflow-hidden border border-gray-200 shadow-md">
+          <Image src="/profile-image-new.png" alt="Profile" fill className="object-cover" priority />
         </div>
         <h1 className="text-3xl md:text-4xl font-bold mb-4">Web3 & Crypto Explorer</h1>
         <p className="text-lg text-gray-600 max-w-2xl mb-8">
