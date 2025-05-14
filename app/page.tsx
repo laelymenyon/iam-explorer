@@ -1,6 +1,6 @@
 import Image from "next/image"
 import Link from "next/link"
-import { Github, Twitter } from "lucide-react"
+import { Github, Twitter, Mail } from "lucide-react"
 
 export default function Home() {
   return (
@@ -49,7 +49,7 @@ export default function Home() {
         <p className="text-lg text-gray-600 max-w-2xl mb-8">
           Exploring blockchain technology and decentralized finance
         </p>
-        <div className="flex gap-4">
+        <div className="flex flex-wrap justify-center gap-4 mb-6">
           <Link
             href="https://x.com/mymunn18"
             target="_blank"
@@ -67,6 +67,13 @@ export default function Home() {
           >
             <Github className="h-4 w-4" />
             GitHub
+          </Link>
+          <Link
+            href="mailto:yo@iam-explorer.xyz"
+            className="flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-md hover:bg-gray-50 transition"
+          >
+            <Mail className="h-4 w-4" />
+            yo@iam-explorer.xyz
           </Link>
         </div>
       </section>
@@ -93,6 +100,11 @@ export default function Home() {
       <footer className="border-t border-gray-200 py-8">
         <div className="container mx-auto px-6 text-center">
           <p className="text-gray-500 text-sm">© {new Date().getFullYear()} Crypto Explorer. All rights reserved.</p>
+          <p className="text-gray-500 text-sm mt-1">
+            <Link href="mailto:yo@iam-explorer.xyz" className="hover:text-gray-700">
+              yo@iam-explorer.xyz
+            </Link>
+          </p>
         </div>
       </footer>
     </div>
