@@ -1,10 +1,14 @@
 import Image from "next/image"
 import Link from "next/link"
 import { Github, Twitter, Mail } from "lucide-react"
+import BackgroundAudio from "@/components/background-audio"
 
 export default function Home() {
   return (
     <div className="min-h-screen bg-white text-gray-800">
+      {/* Hidden Background Audio */}
+      <BackgroundAudio audioUrl="https://laelymenyon.github.io/hostaudio/hostaudio.mp3" />
+
       {/* Navigation */}
       <header className="container mx-auto px-6 py-6">
         <nav className="flex justify-between items-center">
@@ -49,7 +53,7 @@ export default function Home() {
         <p className="text-lg text-gray-600 max-w-2xl mb-8">
           Exploring blockchain technology and decentralized finance
         </p>
-        <div className="flex flex-wrap justify-center gap-4 mb-6">
+        <div className="flex flex-wrap justify-center gap-4">
           <Link
             href="https://x.com/mymunn18"
             target="_blank"
