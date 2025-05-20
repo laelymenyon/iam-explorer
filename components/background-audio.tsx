@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useRef, useState } from "react"
-import { Volume2, VolumeX } from "lucide-react"
+import { Play, Pause, Volume2, VolumeX } from "lucide-react"
 
 interface BackgroundAudioProps {
   audioUrl: string
@@ -9,8 +9,8 @@ interface BackgroundAudioProps {
 
 export default function BackgroundAudio({ audioUrl }: BackgroundAudioProps) {
   const audioRef = useRef<HTMLAudioElement>(null)
+  const [isPlaying, setIsPlaying] = useState(false)
   const [isMuted, setIsMuted] = useState(false)
-  const [showControls, setShowControls] = useState(false)
 
   useEffect(() => {
     const audio = audioRef.current
@@ -20,22 +20,32 @@ export default function BackgroundAudio({ audioUrl }: BackgroundAudioProps) {
     audio.volume = 0.3
     audio.loop = true
 
-    // Try to autoplay
-    const playPromise = audio.play()
-
-    if (playPromise !== undefined) {
-      playPromise.catch((error) => {
-        // Auto-play was prevented
-        // Show a minimal control after a delay so user can enable audio
-        setTimeout(() => setShowControls(true), 1000)
-        console.log("Autoplay prevented:", error)
-      })
-    }
+    // Handle audio end
+    const handleEnded = () => setIsPlaying(false)
+    audio.addEventListener("ended", handleEnded)
 
     return () => {
       audio.pause()
+      audio.removeEventListener("ended", handleEnded)
     }
   }, [])
+
+  const togglePlayback = () => {
+    if (!audioRef.current) return
+
+    if (isPlaying) {
+      audioRef.current.pause()
+      setIsPlaying(false)
+    } else {
+      audioRef.current
+        .play()
+        .then(() => setIsPlaying(true))
+        .catch((error) => {
+          console.error("Error playing audio:", error)
+          setIsPlaying(false)
+        })
+    }
+  }
 
   const toggleMute = () => {
     if (!audioRef.current) return
@@ -43,27 +53,32 @@ export default function BackgroundAudio({ audioUrl }: BackgroundAudioProps) {
     const newMutedState = !isMuted
     audioRef.current.muted = newMutedState
     setIsMuted(newMutedState)
-
-    // If unmuting and audio was prevented from playing, try playing again
-    if (!newMutedState && audioRef.current.paused) {
-      audioRef.current.play().catch((e) => console.log("Play prevented:", e))
-    }
   }
 
   return (
     <>
       <audio ref={audioRef} src={audioUrl} loop preload="auto" />
 
-      {/* Minimal audio control that only appears if autoplay was blocked */}
-      {showControls && (
+      {/* Audio control button */}
+      <div className="fixed bottom-4 right-4 flex gap-2 z-50">
         <button
-          onClick={toggleMute}
-          className="fixed bottom-4 right-4 w-10 h-10 rounded-full bg-white/80 backdrop-blur-sm shadow-md flex items-center justify-center z-50 hover:bg-white transition-colors border border-gray-200"
-          aria-label={isMuted ? "Unmute background music" : "Mute background music"}
+          onClick={togglePlayback}
+          className="w-10 h-10 rounded-full bg-white/80 backdrop-blur-sm shadow-md flex items-center justify-center hover:bg-white transition-colors border border-gray-200"
+          aria-label={isPlaying ? "Pause background music" : "Play background music"}
         >
-          {isMuted ? <VolumeX className="h-5 w-5 text-gray-600" /> : <Volume2 className="h-5 w-5 text-gray-600" />}
+          {isPlaying ? <Pause className="h-5 w-5 text-gray-600" /> : <Play className="h-5 w-5 text-gray-600 ml-0.5" />}
         </button>
-      )}
+
+        {isPlaying && (
+          <button
+            onClick={toggleMute}
+            className="w-10 h-10 rounded-full bg-white/80 backdrop-blur-sm shadow-md flex items-center justify-center hover:bg-white transition-colors border border-gray-200"
+            aria-label={isMuted ? "Unmute background music" : "Mute background music"}
+          >
+            {isMuted ? <VolumeX className="h-5 w-5 text-gray-600" /> : <Volume2 className="h-5 w-5 text-gray-600" />}
+          </button>
+        )}
+      </div>
     </>
   )
 }
