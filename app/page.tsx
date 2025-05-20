@@ -73,11 +73,11 @@ export default function Home() {
             GitHub
           </Link>
           <Link
-            href="mailto:yo@iam-explorer.xyz"
+            href="mailto:btc@iam-explorer.xyz"
             className="flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-md hover:bg-gray-50 transition"
           >
             <Mail className="h-4 w-4" />
-            yo@iam-explorer.xyz
+            btc@iam-explorer.xyz
           </Link>
         </div>
       </section>
@@ -105,8 +105,8 @@ export default function Home() {
         <div className="container mx-auto px-6 text-center">
           <p className="text-gray-500 text-sm">© {new Date().getFullYear()} Crypto Explorer. All rights reserved.</p>
           <p className="text-gray-500 text-sm mt-1">
-            <Link href="mailto:yo@iam-explorer.xyz" className="hover:text-gray-700">
-              yo@iam-explorer.xyz
+            <Link href="mailto:btc@iam-explorer.xyz" className="hover:text-gray-700">
+              btc@iam-explorer.xyz
             </Link>
           </p>
         </div>
